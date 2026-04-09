@@ -2,30 +2,230 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>Helvarix Autonomous Simulator Proof of Concept</title>
     <style>
+      :root {
+        --bg: #020617;
+        --panel: #0f172a;
+        --panel-2: #111827;
+        --border: #1e293b;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --cyan: #00e6ff;
+        --violet: #7a5cff;
+        --gold: #ffcc33;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
       body {
         margin: 0;
+        padding: 0;
+        background:
+          radial-gradient(circle at top, rgba(122, 92, 255, 0.14), transparent 28%),
+          radial-gradient(circle at 80% 20%, rgba(0, 230, 255, 0.1), transparent 24%),
+          linear-gradient(180deg, #030712 0%, #020617 100%);
+        color: var(--text);
         font-family: Arial, Helvetica, sans-serif;
-        background: #0f172a;
-        color: #e2e8f0;
       }
-      #app {
-        max-width: 1200px;
+
+      body {
+        min-height: 100vh;
+      }
+
+      .shell {
+        max-width: 1440px;
         margin: 0 auto;
         padding: 24px;
       }
-      h1 {
-        margin-bottom: 8px;
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        margin-bottom: 24px;
+        padding: 20px 24px;
+        border: 1px solid rgba(122, 92, 255, 0.22);
+        border-radius: 20px;
+        background: rgba(15, 23, 42, 0.82);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 0 0 1px rgba(0, 230, 255, 0.04) inset;
       }
-      p {
+
+      .brand-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--cyan);
+      }
+
+      .title {
+        margin: 0;
+        font-size: clamp(28px, 4vw, 42px);
+        line-height: 1.05;
+      }
+
+      .subtitle {
+        margin: 0;
+        max-width: 760px;
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 15px;
+      }
+
+      .status-badge {
+        flex-shrink: 0;
+        padding: 10px 14px;
+        border: 1px solid rgba(255, 204, 51, 0.25);
+        border-radius: 999px;
+        color: var(--gold);
+        background: rgba(255, 204, 51, 0.08);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .app-frame {
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        background: rgba(15, 23, 42, 0.86);
+        overflow: hidden;
+        box-shadow:
+          0 20px 50px rgba(0, 0, 0, 0.35),
+          0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+      }
+
+      .app-header {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(2, 6, 23, 0.6);
+      }
+
+      .app-header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .app-header-left strong {
+        font-size: 15px;
+      }
+
+      .app-header-left span {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        padding: 8px 10px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: rgba(17, 24, 39, 0.86);
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      #app {
+        padding: 20px;
+      }
+
+      .footer-note {
+        margin-top: 14px;
+        color: var(--muted);
+        font-size: 12px;
         line-height: 1.5;
+      }
+
+      @media (max-width: 900px) {
+        .topbar {
+          flex-direction: column;
+        }
+
+        .status-badge {
+          align-self: flex-start;
+        }
+
+        .shell {
+          padding: 14px;
+        }
+
+        #app {
+          padding: 14px;
+        }
+
+        .app-header {
+          padding: 14px;
+        }
       }
     </style>
   </head>
   <body>
-    <div id="app"></div>
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="eyebrow">Helvarix Systems LLC</div>
+          <h1 class="title">Helvarix Autonomous Simulator</h1>
+          <p class="subtitle">
+            Browser-based proof of concept for mission-level autonomy validation,
+            including weighted terrain, multi-rover tasking, energy-constrained
+            traversal, and planetary surface mission metrics.
+          </p>
+        </div>
+
+        <div class="status-badge">Prototype Demonstrator</div>
+      </header>
+
+      <section class="app-frame">
+        <div class="app-header">
+          <div class="app-header-left">
+            <strong>Mission Scenario</strong>
+            <span>Mars cargo deployment with autonomous multi-rover coordination</span>
+          </div>
+
+          <div class="chips">
+            <div class="chip">Weighted Terrain</div>
+            <div class="chip">A* Route Planning</div>
+            <div class="chip">Energy Constraints</div>
+            <div class="chip">Mission Metrics</div>
+          </div>
+        </div>
+
+        <div id="app"></div>
+      </section>
+
+      <div class="footer-note">
+        This prototype is intended as an early proof of concept to demonstrate
+        autonomy simulation capability. It does not represent a full high-fidelity
+        robotics or physics environment.
+      </div>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
